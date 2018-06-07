@@ -1,16 +1,21 @@
 package com.carregistration.model;
 
-public class Car {
+import java.io.Serializable;
+
+public class Car implements Serializable{
     private String plate;
     private String color;
     private String brand;
     private String ownerName;
     private String ownerLastName;
 
-    public Car(String plate, String color, String brand) {
-        this.plate = plate;
-        this.color = color;
+    public Car(String ownerName, String ownerLastName, String brand, String color, String plate) {
+        this.ownerName = ownerName;
+        this.ownerLastName = ownerLastName;
         this.brand = brand;
+        this.color = color;
+        this.plate = plate;
+
     }
 
     public String getPlate() {

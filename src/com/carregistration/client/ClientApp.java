@@ -1,36 +1,21 @@
 package com.carregistration.client;
 
-import com.carregistration.controller.BlockchainControllerIF;
 import com.carregistration.model.Car;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-
 public class ClientApp extends Application {
+    Client client = new Client();
 
     GridPane rootPane = new GridPane();
     private TextArea serverResponseArea = new TextArea();
@@ -85,9 +70,10 @@ public class ClientApp extends Application {
         btnRegistration.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent t){
                 try{
-                    car = new Car(ownerName.getText(), ownerLastName.getText(), carBrand.getText(),
-                            carColor.getText(), carPlate.getText());
+                    car = new Car(nameTextField.getText(), lastNameTextField.getText(), carBrandTextField.getText(),
+                            carColorTextField.getText(), carPlateTextField.getText());
                     //and send it to server
+                    client.send(car);
 
                 }catch (Exception e){}
             }
@@ -97,7 +83,6 @@ public class ClientApp extends Application {
 
     @Override
     public void init() throws Exception{
-        Client client = new Client();
         client.main();
     }
 

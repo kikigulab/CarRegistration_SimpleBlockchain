@@ -11,7 +11,7 @@ public class MyBlock {
         this.previousHash = previousHash;
         this.car = car;
 
-        //generating the hash of this block using the previous block has and the car object
+        //generating the hash of this block using the previous block hash and the car object
         Object[] contents = {car.hashCode(), previousHash};
         this.blockHash = Arrays.hashCode(contents);
     }

@@ -1,16 +1,12 @@
 package com.carregistration.server;
 
-import com.carregistration.controller.BlockchainControllelrImpl;
 import com.carregistration.model.Car;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,13 +37,22 @@ class ServerThread extends Thread {
 
         try {
             ObjectOutputStream oos = new ObjectOutputStream(socket.get(0).getOutputStream());
-            //ObjectInputStream ois = new ObjectInputStream(socket.get(0).getInputStream());
+            ObjectInputStream ois = new ObjectInputStream(socket.get(0).getInputStream());
             System.out.println("Stream initialized");
-            //do the blockchain here
+
+            //recieve the car object and store it in the blockchain, then send the signature back to the client
+            while(true){
+                Car carInfoRecieved = (Car) ois.readObject();
+                System.out.println("Check if we got the car: " + carInfoRecieved.getOwnerName());
+
+            }
+
 
 
         } catch (IOException e1) {
             e1.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
 
