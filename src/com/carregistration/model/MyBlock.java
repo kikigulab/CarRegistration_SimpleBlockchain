@@ -1,8 +1,9 @@
 package com.carregistration.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class MyBlock {
+public class MyBlock implements Serializable{
     private int previousHash;
     Car car;
     private int blockHash;

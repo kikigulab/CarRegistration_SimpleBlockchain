@@ -1,9 +1,11 @@
 package com.carregistration.client;
 
 import com.carregistration.model.Car;
+import com.carregistration.model.MyBlock;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,18 +13,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class ClientApp extends Application {
     Client client = new Client();
 
     GridPane rootPane = new GridPane();
-    private TextArea serverResponseArea = new TextArea();
+    private Label serverResponseArea = new Label();
     private Car car;
 
     private Parent createContent() {
-        serverResponseArea.setPrefHeight(100);
         TextField input = new TextField();
         rootPane.setAlignment(Pos.CENTER);
         rootPane.setHgap(10);
@@ -74,6 +79,15 @@ public class ClientApp extends Application {
                             carColorTextField.getText(), carPlateTextField.getText());
                     //and send it to server
                     client.send(car);
+
+                    //then recieve the registered block, and print the signature.
+                    System.out.printf("Receiving register car block...\n");
+                    MyBlock registeredBlock = client.recieveRegisteredBlock();
+                    System.out.printf("Registered block recieved. Owner Name and Registration Signature: " +
+                            registeredBlock.getCar().getOwnerName() + " AND "+ registeredBlock.getBlockHash());
+
+                    serverResponseArea.setText("Your car is succsesfully registered!\n" +
+                            "Your registration signature code is: " + registeredBlock.getBlockHash());
 
                 }catch (Exception e){}
             }
